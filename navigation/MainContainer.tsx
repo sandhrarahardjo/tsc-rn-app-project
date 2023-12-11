@@ -49,7 +49,7 @@ const MainContainer: React.FC<MainContainerProps> = () => {
 					name='Registration'
 					component={RegistrationScreen}
 					options={{
-						tabBarLabel: 'Register',
+						tabBarLabel: 'Registration',
 						tabBarIcon: ({ color, size }) => (
 							<Ionicons name='add-circle' color={color} size={size}/>
 						),

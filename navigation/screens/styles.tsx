@@ -9,7 +9,7 @@ export const styles = {
     backgroundColor: 'darkblue',
     height: 40,
   },
-  display4: {
+  postingdisplay: {
     fontSize: 24,
     fontWeight: 'bold',
     color: 'white',

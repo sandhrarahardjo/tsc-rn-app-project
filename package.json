@@ -12,8 +12,11 @@
   "dependencies": {
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
+    "package": "^1.0.1",
     "react": "18.2.0",
     "react-native": "0.72.7",
+    "react-native-screen": "^1.0.1",
+    "react-native-screens": "^3.27.0",
     "react-native-vector-icons": "^10.0.2"
   },
   "devDependencies": {

@@ -8,9 +8,9 @@ interface Post {
   body: string;
 }
 
-const renderJumbotron = () => (
+const renderJumbotron = (): React.ReactNode => (
   <View style={styles.jumbotron}>
-    <Text style={styles.display4}>Postings</Text>
+    <Text style={styles.postingdisplay}>Postings</Text>
   </View>
 );
 
@@ -34,7 +34,13 @@ const renderCardBody = (post: Post) => {
   );
 };
 
-const handleClick = (setModalDisplay: React.Dispatch<React.SetStateAction<boolean>>, setSelectedPost: React.Dispatch<React.SetStateAction<Post>>, post: Post) => {
+type HandleClickType = (
+  setModalDisplay: React.Dispatch<React.SetStateAction<boolean>>,
+  setSelectedPost: React.Dispatch<React.SetStateAction<Post>>,
+  post: Post
+) => void;
+
+const handleClick: HandleClickType = (setModalDisplay, setSelectedPost, post) => {
   setModalDisplay(true);
   setSelectedPost(post);
 };
@@ -85,7 +91,7 @@ const Postings = () => {
   usePostList(setPosts);
 
   return (
-    <View style = {styles.container}>
+    <View style={styles.container}>
       {renderJumbotron()}
       {renderCard(posts, setModalDisplay, setSelectedPost)}
       {renderModal(isModalDisplayed, setModalDisplay, selectedPost)}

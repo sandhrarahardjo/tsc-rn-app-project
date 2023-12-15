@@ -1,45 +1,13 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  Button,
-  Image,
-  TextInput,
-} from 'react-native';
+import { View, Text, Button, Image, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { styles } from './profile.styles';
-
-interface SocialMedia {
-  name: string;
-  github: string;
-  linkedin: string;
-  instagram: string;
-  email: string;
-}
+import { defaultSocialMedia, SocialMedia, defaultIsEditing, defaultProfileImage, socialMediaPlatforms } from './ProfileConstants';
 
 const EditProfileScreen = (): JSX.Element => {
-  const defaultSocialMedia: SocialMedia = {
-    name: '',
-    github: '',
-    linkedin: '',
-    instagram: '',
-    email: '',
-  };
-
-  const socialMediaPlatforms = [
-    { key: 'name', icon: 'user' },
-    { key: 'github', icon: 'github' },
-    { key: 'linkedin', icon: 'linkedin' },
-    { key: 'instagram', icon: 'instagram' },
-    { key: 'email', icon: 'envelope' },
-  ];
-
   const [socialMedia, setSocialMedia] = useState<SocialMedia>(defaultSocialMedia);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [profileImage, setProfileImage] = useState<string>(
-    'https://isobarscience-1bfd8.kxcdn.com/wp-content/uploads/2020/09/default-profile-picture1.jpg'
-  );
-
+  const [isEditing, setIsEditing] = useState<boolean>(defaultIsEditing);
+  const [profileImage, setProfileImage] = useState<string>(defaultProfileImage);
   const [imageUrl, setImageUrl] = useState<string>(profileImage);
 
   const handleEditProfile = () => {
@@ -58,8 +26,8 @@ const EditProfileScreen = (): JSX.Element => {
     });
   };
 
-  const _renderEditComponent = () => {
-    const inputFields = [
+  const generateEditInputFields = () => {
+    return [
       { key: 'name', placeholder: 'Enter your name', value: socialMedia.name },
       { key: 'github', placeholder: 'Enter your github', value: socialMedia.github },
       { key: 'linkedin', placeholder: 'Enter your linkedIn', value: socialMedia.linkedin },
@@ -67,6 +35,10 @@ const EditProfileScreen = (): JSX.Element => {
       { key: 'email', placeholder: 'Enter your email', value: socialMedia.email },
       { key: 'imageUrl', placeholder: 'Enter image URL', value: imageUrl },
     ];
+  };
+
+  const _renderEditComponent = () => {
+    const inputFields = generateEditInputFields();
 
     return inputFields.map((field) => (
       <TextInput
@@ -97,17 +69,13 @@ const EditProfileScreen = (): JSX.Element => {
       ))}
     </>
   );
-  
+
   return (
     <View style={styles.container}>
       <Image source={{ uri: profileImage }} style={styles.profileImage} />
       <Text style={styles.header}>Profile</Text>
       {isEditing ? _renderEditComponent() : _renderViewComponent()}
-      {isEditing ? (
-        <Button title='Save' onPress={handleSaveProfile} />
-      ) : (
-        <Button title='Edit Profile' onPress={handleEditProfile} />
-      )}
+      <Button title={isEditing ? 'Save' : 'Edit Profile'} onPress={isEditing ? handleSaveProfile : handleEditProfile} />
     </View>
   );
 };

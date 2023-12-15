@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
 import { Linking } from 'react-native';
 import RegistrationStyles from './registration.styles';
+import { registrationBackgroundImageUrl } from './ImageConstants';
+import { isEmailValid, isPasswordValid } from './password.utils';
 
 const RegistrationScreen: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -9,25 +11,23 @@ const RegistrationScreen: React.FC = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
-  const handleSubmit = () => {
-    if (!email.trim()) {
-      setEmailError('Please enter a valid email address');
-      return;
-    }
+  const handleEmailChange = (text: string) => {
+    setEmail(text);
+  };
 
-    if (!/\S+@\S+\.\S+/.test(email)) {
+  const handlePasswordChange = (text: string) => {
+    setPassword(text);
+  };
+
+  const handleSubmit = () => {
+    if (!email.trim() || !isEmailValid(email)) {
       setEmailError('Please enter a valid email address');
       return;
     }
 
     setEmailError('');
 
-    if (!password.trim()) {
-      setPasswordError('Please enter a valid password.');
-      return;
-    }
-
-    if (!/(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])(.{8,})/.test(password)) {
+    if (!password.trim() || !isPasswordValid(password)) {
       setPasswordError(
         'Password must contain at least 1 uppercase letter, 1 number, 1 special character, and be at least 8 characters long.'
       );
@@ -37,13 +37,13 @@ const RegistrationScreen: React.FC = () => {
     setPasswordError('');
 
     Linking.openURL('https://www.jenius.com').catch((err) =>
-      console.error('An error occurred: ', err)
+    setPasswordError('An error occurred while opening the link. Please try again.')
     );
   };
 
   return (
     <ImageBackground
-      source={{ uri: 'https://t4.ftcdn.net/jpg/06/00/61/39/360_F_600613991_wy7mmJihme0g9WKMOiCz8ubcJK98whzi.jpg' }}
+      source={{ uri: registrationBackgroundImageUrl }}
       style={RegistrationStyles.backgroundImage}
     >
       <View style={RegistrationStyles.container}>
@@ -55,7 +55,7 @@ const RegistrationScreen: React.FC = () => {
               style={RegistrationStyles.input}
               keyboardType='email-address'
               value={email}
-              onChangeText={(text) => setEmail(text)}
+              onChangeText={handleEmailChange}
               autoCapitalize='none'
               autoCorrect={false}
             />
@@ -68,11 +68,10 @@ const RegistrationScreen: React.FC = () => {
               style={RegistrationStyles.input}
               secureTextEntry
               value={password}
-              onChangeText={(text) => setPassword(text)}
+              onChangeText={handlePasswordChange}
             />
             <Text style={RegistrationStyles.errorText}>{passwordError}</Text>
           </View>
-
           <TouchableOpacity style={RegistrationStyles.button} onPress={handleSubmit}>
             <Text style={RegistrationStyles.buttonText}>Submit</Text>
           </TouchableOpacity>

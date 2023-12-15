@@ -1,3 +1,8 @@
+const commonText = {
+  fontSize: 20,
+  marginLeft: 10,
+};
+
 export const styles: { [key: string]: any } = {
   container: {
     flex: 1,
@@ -23,17 +28,15 @@ export const styles: { [key: string]: any } = {
     alignItems: 'center',
     marginBottom: 20,
   },
+  commonText: commonText,
   name: {
-    fontSize: 20,
-    marginLeft: 10,
+    ...commonText,
   },
   insta: {
-    fontSize: 20,
-    marginLeft: 10,
+    ...commonText,
   },
   email: {
-    fontSize: 20,
-    marginLeft: 10,
+    ...commonText,
   },
   profileImage: {
     width: 150,
